@@ -13,7 +13,7 @@ public class git {
         // This line was added by Developer B on the cloud.
         Map resultMap = new HashMap();
         Iterator iterator12 = null;
-        String contractorEmail = (String) account.getAttribute("contractorEmail");//Reading Contractor Email
+        String contractorEmail = (String) account.getAttribute("contractorEmail");//Reading Contractor Email from the account
         if (Util.isNullOrEmpty(contractorEmail)){
             return null;
         }
