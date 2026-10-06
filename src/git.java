@@ -12,7 +12,7 @@ public class git {
     public static  void main(String[] args){
         Map resultMap = new HashMap();
         Iterator iterator12 = null;
-        String contractorEmail = (String) account.getAttribute("contractorEmail");
+        String contractorEmail = (String) account.getAttribute("contractorEmail");//Reading Contractor Email
         if (Util.isNullOrEmpty(contractorEmail)){
             return null;
         }
