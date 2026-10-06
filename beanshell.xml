@@ -1,0 +1,50 @@
+<Rule name = "AWS Contractor Before Provisioning"
+      type = "BeforeProvisioning"
+      language = "beanshell">
+    <Description>
+        Add Configurable Contractor Group
+    </Description>
+    <Signature>
+    <Inputs>
+            <Argument name = "identity"/>
+            <Argement name = "plan"/>
+            <Argement name = "application"/>
+            <Argement name = "args"/>
+    </Inputs>
+    </Signature>
+    <Source>
+        <![CDATA[
+if (application==null||identity==null||plan==null){
+            log.warn("Identity or Application is null");
+            return;
+        }
+        String employeeType = String.valueOf(identity.getAttribute("EmployeeType"));
+        log.debug("Employee Type= "+employeeType);
+        if(!"Contractor".equalsIgnoreCase(employeeType)
+        || !"AWS".equalsIgnoreCase(application.getName())){
+            log.debug("AWS Contractor not found--End Rule");
+            return;
+        }String groupName = (String) args.get("GroupName");
+        if (groupName==null){
+            log.warn("GroupName not configured");
+            return;
+        }
+       List accountRequests  = plan.getAccountRequests();
+        if (accountRequests ==null){
+            log.warn("Plan has no Account Request");
+            return;
+        }for (Object object : accountRequests){
+            ProvisioningPlan.AccountRequest ar = (ProvisioningPlan.AccountRequest) object;
+            if (ar==null){
+                continue;
+            }if (ar.getOperation()== ProvisioningPlan.AccountRequest.Operation.Create){
+                ProvisioningPlan.AttributeRequest group = new ProvisioningPlan.AttributeRequest(
+                        "Group", ProvisioningPlan.Operation.Add,groupName
+                );
+                ar.add(group);
+                log.info("Added Group= "+ groupName);
+            }
+        }
+        ]]>
+    </Source>
+</Rule>
