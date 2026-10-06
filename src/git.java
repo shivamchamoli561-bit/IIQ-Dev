@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class git {
     public static  void main(String[] args){
+        // This line was added by Developer B on the cloud.
         Map resultMap = new HashMap();
         Iterator iterator12 = null;
         String contractorEmail = (String) account.getAttribute("contractorEmail");//Reading Contractor Email
